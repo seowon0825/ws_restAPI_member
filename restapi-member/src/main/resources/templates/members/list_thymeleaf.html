@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>MemberList</title>
+</head>
+<body>
+<h1>Member List - Thymeleaf</h1>
+<hr>
+<div th:each="member : ${list}">
+	<h2 th:text="${member.username}"></h2>
+	<p th:text="${member.password}"></p>
+	<p th:text="${member.name}"></p>
+	<p th:text="${member.email}"></p>
+	<p th:text="${member.addr}"></p>
+	<br>
+</div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+<meta charset="UTF-8">
+<title>MemberDetail</title>
+</head>
+<body>
+<h1>Member Detail - javaScript</h1>
+<hr>
+<div id="memberDetail">
+	
+</div>
+<script>
+function memberDetail(mno){
+	fetch('/api/members/${mno}')
+	.then(response => response.json())
+	.then(data => {
+		const detailContainer = document.getElementById('memberDetail');
+		const detailItem = data.map(member =>
+			`<div id="memberDetail">
+				<a href="#"><h4>${member.name}</h4></a>	
+				<p>id : ${member.username}</p>
+				<p>password : ${member.password}</p>
+				<p>email : ${member.email}</p>
+				<p>addr : ${member.addr}</p>
+			</div>`
+		).join('');
+		detailContainer.innerHTML = detailItem;
+	})
+	.catch(error => console.error('Error loading the member : ', error))
+};
+</script>
+</body>
+</html>

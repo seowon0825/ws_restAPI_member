@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>MemberList</title>
+</head>
+<body>
+<h1>Member List - javaScript</h1>
+<hr>
+<div id="memberList">
+
+</div>
+
+<script>
+window.onload = function(){
+	fetch('/api/members')
+	.then(response => response.json())
+	.then(data => {
+		const listContainer = document.getElementById('memberList');
+		const listItems = data.map(member =>
+			`<div id="memberDetail${member.mno}">
+				<a href="#" onclick="fetchMemDetail(${member.mno})"><h4>${member.name}</h4></a>	
+				<p>id : ${member.username}</p>
+				<p>email : ${member.email}</p>
+			</div>`
+		).join('');
+		listContainer.innerHTML = listItems;
+	})
+	.catch(error => console.error('Error loading the members : ', error));
+};
+
+function fetchMemDetail(mno){
+	fetch(`/api/members/${mno}`)
+	.then(response => response.json())
+	.then(data => {
+		const detailContainer = document.getElementById(`memberDetail${data.mno}`);
+		detailContainer.innerHTML = 
+		`
+		<h4>${data.name}</h4>
+		<p>id : ${data.username}</p>
+		<p>password : ${data.password}</p>
+		<p>email : ${data.email}</p>
+		<p>addr : ${data.addr}</p>
+		<a href="/members/modifyForm?mno=${data.mno}">수정하기</a>
+		`;
+	})
+	.catch(error => console.error('Error loading the member : ', error));
+};
+</script>
+</body>
+</html>
